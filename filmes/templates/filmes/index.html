@@ -1,0 +1,89 @@
+{% load static %}
+
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'estilo.css' %}" media="screen" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Netflix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"
+        integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <!-- HEADER -->
+        <header>
+            <div class="netflixLogo">
+                <a id="logo" href="{% url 'index' %}"><img
+                        src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/logo.PNG?raw=true"
+                        alt="Logo Image"></a>
+            </div>
+            <nav class="main-nav">
+                <a href="{% url 'index' %}">Home</a>
+            </nav>
+            <nav class="sub-nav">
+                <form class="example" method="get" action="{% url 'busca' %}">
+                    <input id='pesquisar' type="text" value="{{request.GET.termo}}" placeholder="Search.." name="termo">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                    <a href="{% url 'logout' %}">Sair</a>
+                </form>
+            </nav>
+        </header>
+        <!-- END OF HEADER -->
+
+        <!-- MAIN CONTAINER -->
+        <section class="main-container">
+            <div class="location" id="home">
+                <h1 id="home">Filmes recomendados para voce!</h1>
+                <div class="box">
+                    {% for filme in filmes %}
+                    <a href="{% url 'detalhe' filme.id_filmes %}"><img src="{{ filme.urls_imgs_185 }}" alt=""></a>
+                    {% endfor %}
+                </div>
+
+        </section>
+</body>
+<footer>
+    {% if filmes.paginator.num_pages > 1 %}
+    <nav aria-label="Page navigation">
+        <div class="pagination justify-content-center">
+            {% if filmes.paginator.num_pages != 1 %}
+            <a class="page-link" href="?p=1&termo={{request.GET.termo}}">First</a>
+            {% else %}
+            <a class="page-link" href="#">First</a>
+            {% endif %}
+            {% if filmes.has_previous %}
+            <a class="page-link" href="?p={{ filmes.previous_page_number }}&termo={{request.GET.termo}}">&laquo;</a>
+            {% else %}
+            <a class="page-link" href="#">&laquo;</a>
+            {% endif %}
+            {% for i in filmes.paginator.page_range %}
+            {% if filmes.number == i %}
+            <a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a>
+            {% elif filmes.number > i|add:"-5" and filmes.number < i|add:"+5"%} <a class="page-link" href="?p={{ i }}&termo={{request.GET.termo}}">
+                {{ i }}</a>
+                {% endif %}
+                {% endfor %}
+                {% if filmes.has_next %}
+                <a class="page-link" href="?p={{ filmes.next_page_number }}&termo={{request.GET.termo}}">&raquo;</a>
+                {% else %}
+                <a class="page-link" href="#">&raquo;</a>
+                {% endif %}
+                {% if filmes.paginator.num_pages != filmes.number %}
+                <a class="page-link" href="?p={{ filmes.paginator.num_pages }}&termo={{request.GET.termo}}">Last</a>
+                {% else %}
+                <a class="page-link" href="#">Last</a>
+                {% endif %}
+        </div>
+    </nav>
+    {% endif %}
+</footer>
+
+</html>

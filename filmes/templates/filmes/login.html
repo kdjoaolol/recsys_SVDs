@@ -1,0 +1,46 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'estilo_contas.css' %}" media="screen" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Netflix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"
+        integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<div class="topnav" id="myTopnav">
+    <a href="{% url 'login' %}" class="active">Login</a>
+    <a href="{% url 'cadastro' %}">Cadastro</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+    </a>
+</div>
+
+<body>
+    <div class="bodddy">
+        <form method="POST" action="{% url 'login' %}" class="form">
+            {% csrf_token %}
+            <div class="title">Bem vindo!</div>
+            <div class="subtitle">Faça seu login.</div>
+
+            <div class="input-container ic2">
+                <input id="usuario" class="input" name="usuario" type="text" placeholder="Usuário"
+                    value="{{request.POST.usuario}}" />
+            </div>
+
+            <div class="input-container ic2">
+                <input id="senha" class="input" name="senha" type="password" placeholder="Senha" />
+            </div>
+
+            <button type="text" class="submit">Entrar</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
